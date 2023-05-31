@@ -18,11 +18,11 @@ dependencies:
     specifier: latest
     version: registry.npmmirror.com/@vue/shared@3.3.4
   monaco-editor:
-    specifier: 0.24.0
-    version: registry.npmmirror.com/monaco-editor@0.24.0
+    specifier: latest
+    version: registry.npmmirror.com/monaco-editor@0.35.0
   monaco-editor-core:
-    specifier: ^0.24.0
-    version: registry.npmmirror.com/monaco-editor-core@0.24.0
+    specifier: latest
+    version: registry.npmmirror.com/monaco-editor-core@0.34.1
   splitpanes:
     specifier: ^3.0.4
     version: registry.npmmirror.com/splitpanes@3.0.4
@@ -3332,16 +3332,16 @@ packages:
       ufo: registry.npmmirror.com/ufo@1.1.2
     dev: true
 
-  registry.npmmirror.com/monaco-editor-core@0.24.0:
-    resolution: {integrity: sha512-WJAzpNYEaJp8Z7crIAiLCVln1zZdo4cFXCRuhTDN4A3tz6IK2NOXAtTOZ9iLKBTtd6eitZJ2Q1Fx8JN8rN3fWw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/monaco-editor-core/-/monaco-editor-core-0.24.0.tgz}
+  registry.npmmirror.com/monaco-editor-core@0.34.1:
+    resolution: {integrity: sha512-RaYj0HGvKZjy7H3HCluhypExLi2Z7rpHVKc4KQ6iShqY3TW5cKGaETrr4wJ7aPz2UAWVtGmXNjea/BpoCAjY+w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/monaco-editor-core/-/monaco-editor-core-0.34.1.tgz}
     name: monaco-editor-core
-    version: 0.24.0
+    version: 0.34.1
     dev: false
 
-  registry.npmmirror.com/monaco-editor@0.24.0:
-    resolution: {integrity: sha512-o1f0Lz6ABFNTtnEqqqvlY9qzNx24rQZx1RgYNQ8SkWkE+Ka63keHH/RqxQ4QhN4fs/UYOnvAtEUZsPrzccH++A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/monaco-editor/-/monaco-editor-0.24.0.tgz}
+  registry.npmmirror.com/monaco-editor@0.35.0:
+    resolution: {integrity: sha512-BJfkAZ0EJ7JgrgWzqjfBNP9hPSS8NlfECEDMEIIiozV2UaPq22yeuOjgbd3TwMh3anH0krWZirXZfn8KUSxiOA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/monaco-editor/-/monaco-editor-0.35.0.tgz}
     name: monaco-editor
-    version: 0.24.0
+    version: 0.35.0
     dev: false
 
   registry.npmmirror.com/mri@1.2.0:

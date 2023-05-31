@@ -14,8 +14,8 @@
     "@vue/runtime-core": "latest",
     "@vue/runtime-dom": "latest",
     "@vue/shared": "latest",
-    "monaco-editor": "0.24.0",
-    "monaco-editor-core": "^0.24.0",
+    "monaco-editor": "latest",
+    "monaco-editor-core": "latest",
     "splitpanes": "^3.0.4",
     "vscode-html-languageservice": "^4.0.3",
     "vue": "latest"
