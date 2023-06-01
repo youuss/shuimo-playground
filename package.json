@@ -2,32 +2,50 @@
   "name": "shuimo-playground",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "buildOptions": {
+    "formats": [
+      "global"
+    ],
+    "env": "development",
+    "enableNonBrowserBranches": true
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@headlessui/vue": "latest",
     "@types/splitpanes": "^2.2.0",
     "@vue/runtime-core": "latest",
     "@vue/runtime-dom": "latest",
     "@vue/shared": "latest",
+    "@vueuse/core": "latest",
+    "lz-string": "^1.5.0",
     "monaco-editor": "latest",
     "monaco-editor-core": "latest",
+    "shuimo-ui": "latest",
     "splitpanes": "^3.0.4",
-    "vscode-html-languageservice": "^4.0.3",
-    "vue": "latest"
+    "theme-vitesse": "latest",
+    "vscode-html-languageservice": "latest",
+    "vue": "latest",
+    "vue-hako": "latest"
   },
   "devDependencies": {
-    "@youus/eslint-config": "^1.0.2",
+    "@iconify/json": "latest",
     "@types/node": "^15.6.1",
     "@vitejs/plugin-vue": "latest",
     "@vue/compiler-sfc": "latest",
+    "@youus/eslint-config": "^1.0.2",
     "eslint": "^8.41.0",
     "typescript": "^4.1.3",
+    "unplugin-icons": "latest",
+    "unplugin-vue-components": "latest",
     "vite": "latest",
-    "unplugin-vue-components": "latest"
+    "vite-plugin-windicss": "latest",
+    "windicss": "latest"
   }
 }

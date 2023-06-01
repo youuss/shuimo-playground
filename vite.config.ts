@@ -3,7 +3,11 @@ import path from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import Components from 'unplugin-vue-components/vite'
+
 import { HeadlessUiResolver } from 'unplugin-vue-components/resolvers'
+import WindiCSS from 'vite-plugin-windicss'
+import Icons from 'unplugin-icons/vite'
+import IconResolver from 'unplugin-icons/resolver'
 
 const prefix = 'monaco-editor/esm/vs'
 
@@ -20,8 +24,17 @@ export default defineConfig({
       dts: true,
       resolvers: [
         HeadlessUiResolver(),
+        IconResolver({
+          prefix: ''
+        })
       ],
     }),
+    WindiCSS({
+      scan: {
+        include: ['src/**/*.{vue,html,jsx,tsx}', 'index.html'],
+      },
+    }),
+    Icons(),
   ],
   resolve: {
     alias: {

@@ -6,7 +6,7 @@ import { createSingletonPromise } from '@antfu/utils'
 import vueuseTypes from '@vueuse/core/index.d.ts?raw'
 import vueTypes from '@vue/runtime-core/dist/runtime-core.d.ts?raw'
 
-// import { orchestrator } from '~/orchestrator'
+import { orchestrator } from '~/orchestrator'
 
 const setup = createSingletonPromise(async() => {
   monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
@@ -29,20 +29,20 @@ const setup = createSingletonPromise(async() => {
     declare module 'vue' { ${vueTypes} }
   `, 'ts:vue')
 
-  // watch(() => orchestrator.packages, () => {
-  //   orchestrator.packages.forEach((pack) => {
-  //     if (registered.includes(pack.name))
-  //       return
+  watch(() => orchestrator.packages, () => {
+    orchestrator.packages.forEach((pack) => {
+      if (registered.includes(pack.name))
+        return
 
-  //     registered.push(pack.name)
-  //     monaco.languages.typescript.javascriptDefaults.addExtraLib(`
-  //       declare module '${pack.name}' {
-  //         let x: any;
-  //         export = x;
-  //       }
-  //     `, pack.name)
-  //   })
-  // }, { immediate: true })
+      registered.push(pack.name)
+      monaco.languages.typescript.javascriptDefaults.addExtraLib(`
+        declare module '${pack.name}' {
+          let x: any;
+          export = x;
+        }
+      `, pack.name)
+    })
+  }, { immediate: true })
 
   await Promise.all([
     // load workers
