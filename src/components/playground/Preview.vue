@@ -32,6 +32,7 @@ watch(() => store.importMap, (importMap, prev) => {
     return
   }
   try {
+    console.log('importMap', importMap)
     const map = JSON.parse(importMap)
     if (!map.imports) {
       store.errors = [
@@ -158,6 +159,7 @@ async function updatePreview() {
       isDark.value ? 'document.querySelector("html").classList.add("dark")' : 'document.querySelector("html").classList.remove("dark")',
       `
       import { createApp as _createApp } from "vue"
+      import { createMUI } from "shuimo-ui"
       if (window.__app__) {
         window.__app__.unmount()
         document.getElementById('app').innerHTML = ''
@@ -165,6 +167,7 @@ async function updatePreview() {
       document.getElementById('__sfc-styles').innerHTML = window.__css__
       const app = window.__app__ = _createApp(__modules__["${MAIN_FILE}"].default)
       app.config.errorHandler = e => console.error(e)
+      app.use(createMUI())
       app.mount('#app')`.trim(),
     ])
   }

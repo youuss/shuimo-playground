@@ -54,7 +54,7 @@ useEventListener('keydown', (ev) => {
     >
       <carbon-settings />
     </Button>
-    <a href="https://github.com/wheatjs/vueuse-playground" target="_blank">
+    <a href="https://github.com/youuss/shuimo-playground" target="_blank">
       <Button
         icon
         text="base"

@@ -22,10 +22,6 @@ const setup = createSingletonPromise(async() => {
   const registered: string[] = ['vue']
 
   monaco.languages.typescript.javascriptDefaults.addExtraLib(`
-    declare module '@vueuse/core' { ${vueuseTypes} }
-  `, 'ts:vueuse')
-
-  monaco.languages.typescript.javascriptDefaults.addExtraLib(`
     declare module 'vue' { ${vueTypes} }
   `, 'ts:vue')
 
