@@ -25,7 +25,12 @@ export class OrchestratorFile {
     ssr: '',
   }
 
-  constructor(filename: string, template: string | undefined, script: string | undefined, style?: string) {
+  constructor(
+    filename: string,
+    template: string | undefined,
+    script: string | undefined,
+    style?: string
+  ) {
     this.filename = filename
     this.template = template || ''
     this.script = script || ''
@@ -74,7 +79,9 @@ export const orchestrator: Orchestrator = reactive({
   },
 
   get importMap() {
-    const imports = orchestrator.packages.map(({ name, url }) => `"${name}": "${url}"`)
+    const imports = orchestrator.packages.map(
+      ({ name, url }) => `"${name}": "${url}"`
+    )
 
     return `
       {
@@ -91,26 +98,32 @@ export const orchestrator: Orchestrator = reactive({
  */
 
 watchEffect(() => {
-  if (orchestrator.activeFile)
-    compileFile(orchestrator.activeFile)
+  if (orchestrator.activeFile) compileFile(orchestrator.activeFile)
 })
 
-watch(() => orchestrator.activeFilename, () => {
-  shouldUpdateContent.trigger(null)
-})
+watch(
+  () => orchestrator.activeFilename,
+  () => {
+    shouldUpdateContent.trigger(null)
+  }
+)
 
 export function exportState() {
-  const files = Object.entries(orchestrator.files).reduce((acc, [name, { template, script }]) => {
-    acc[name] = { template, script }
-    return acc
-  }, {} as Record<string, any>)
+  const files = Object.entries(orchestrator.files).reduce(
+    (acc, [name, { template, script }]) => {
+      acc[name] = { template, script }
+      return acc
+    },
+    {} as Record<string, any>
+  )
 
-  return lz.compressToEncodedURIComponent(JSON.stringify({
-    packages: orchestrator.packages,
-    files,
-  }))
+  return lz.compressToEncodedURIComponent(
+    JSON.stringify({
+      packages: orchestrator.packages,
+      files,
+    })
+  )
 }
-
 
 /**
  * Add a file to the orchestrator
@@ -177,7 +190,9 @@ function loadInitialState() {
   removeAllFiles()
 
   if (location.hash.slice(1)) {
-    const { files, packages } = JSON.parse(lz.decompressFromEncodedURIComponent(location.hash.slice(1)))
+    const { files, packages } = JSON.parse(
+      lz.decompressFromEncodedURIComponent(location.hash.slice(1))
+    )
 
     console.log(files, packages)
 
@@ -191,10 +206,11 @@ function loadInitialState() {
       setActiveFile('App.vue')
       shouldUpdateContent.trigger(null)
     }
-  }
-  else {
+  } else {
     orchestrator.packages = initialPackages
-    addFile(new OrchestratorFile('App.vue', appTemplate.trim(), appScript.trim()))
+    addFile(
+      new OrchestratorFile('App.vue', appTemplate.trim(), appScript.trim())
+    )
     setActiveFile('App.vue')
     shouldUpdateContent.trigger(null)
     console.log('initialPackages')

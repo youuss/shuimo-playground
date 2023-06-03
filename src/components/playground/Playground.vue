@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { Splitpanes, Pane } from 'splitpanes'
+import { computed, ref } from 'vue'
+import { Pane, Splitpanes } from 'splitpanes'
 import { Hako } from 'vue-hako'
-import { orchestrator, onShouldUpdateContent } from '~/orchestrator'
+import { onShouldUpdateContent, orchestrator } from '~/orchestrator'
 import sizes from '~/data/screen-sizes.json'
 
 const initialScript = ref('')
@@ -21,10 +21,8 @@ onShouldUpdateContent(() => {
 
 const onContentChanged = (source: string, content: string) => {
   if (orchestrator.activeFile) {
-    if (source === 'script')
-      orchestrator.activeFile.script = content
-    else if (source === 'template')
-      orchestrator.activeFile.template = content
+    if (source === 'script') orchestrator.activeFile.script = content
+    else if (source === 'template') orchestrator.activeFile.template = content
   }
 }
 </script>
@@ -36,23 +34,32 @@ const onContentChanged = (source: string, content: string) => {
         <TabBar />
         <Splitpanes class="default-theme editors-height" horizontal>
           <Pane>
-            <Container title="Script Setup" class="rounded-b-md" no-overflow no-rounding>
+            <Container
+              title="Script Setup"
+              class="rounded-b-md"
+              no-overflow
+              no-rounding
+            >
               <template #default>
                 <Editor
                   language="javascript"
                   :value="initialScript"
-                  @change="content => onContentChanged('script', content)"
+                  @change="(content) => onContentChanged('script', content)"
                 />
               </template>
             </Container>
           </Pane>
           <Pane>
-            <Container title="Template" class="border-1 border-white" no-overflow>
+            <Container
+              title="Template"
+              class="border-1 border-white"
+              no-overflow
+            >
               <template #default>
                 <Editor
                   language="html"
                   :value="initialTemplate"
-                  @change="content => onContentChanged('template', content)"
+                  @change="(content) => onContentChanged('template', content)"
                 />
               </template>
             </Container>
@@ -73,14 +80,21 @@ const onContentChanged = (source: string, content: string) => {
                   </span>
                 </template>
                 <template #items>
-                  <SelectItem v-for="(_, index) in sizes" :key="index" :value="index">
+                  <SelectItem
+                    v-for="(_, index) in sizes"
+                    :key="index"
+                    :value="index"
+                  >
                     {{ index }}
                   </SelectItem>
                 </template>
               </Select>
             </template>
             <template #default>
-              <div h="full" :class="{ 'p-8 bg-light-700 dark:bg-dark-300': !enabled }">
+              <div
+                h="full"
+                :class="{ 'p-8 bg-light-700 dark:bg-dark-300': !enabled }"
+              >
                 <Hako
                   h="full"
                   w="full"

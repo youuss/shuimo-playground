@@ -4,10 +4,7 @@ import typography from 'windicss/plugin/typography'
 
 export default defineConfig({
   darkMode: 'class',
-  plugins: [
-    typography(),
-    require('windicss/plugin/line-clamp'),
-  ],
+  plugins: [typography(), require('windicss/plugin/line-clamp')],
   attributify: true,
   theme: {
     extend: {
@@ -17,10 +14,10 @@ export default defineConfig({
             maxWidth: '65ch',
             color: 'inherit',
             a: {
-              'color': 'inherit',
-              'opacity': 0.75,
-              'fontWeight': '500',
-              'textDecoration': 'underline',
+              color: 'inherit',
+              opacity: 0.75,
+              fontWeight: '500',
+              textDecoration: 'underline',
               '&:hover': {
                 opacity: 1,
                 color: colors.teal[600],

@@ -33,13 +33,7 @@ const addPackage = () => {
     z="10"
     @close="isOpen = false"
   >
-    <div
-      position="relative"
-      grid="~"
-      place="items-center"
-      min-h="screen"
-      p="4"
-    >
+    <div position="relative" grid="~" place="items-center" min-h="screen" p="4">
       <DialogOverlay
         position="fixed inset-0"
         backdrop="~ blur-sm"
@@ -58,21 +52,20 @@ const addPackage = () => {
         p="4"
       >
         <div grid="~" gap="4">
-          <div text="lg" font="medium">
-            Add Package
-          </div>
+          <div text="lg" font="medium">Add Package</div>
           <Textfield v-model="name" placeholder="@vueuse/core">
             <mdi-package-variant-closed />
           </Textfield>
-          <Textfield v-model="url" placeholder="https://unpkg.com/@vueuse/core/dist/index.esm.js">
+          <Textfield
+            v-model="url"
+            placeholder="https://unpkg.com/@vueuse/core/dist/index.esm.js"
+          >
             <carbon-link />
           </Textfield>
           <div flex="~ row" space="x-4">
-            <span flex="1"></span>
+            <span flex="1" />
             <Button @click="isOpen = false">Cancel</Button>
-            <Button primary @click="addPackage()">
-              Add Package
-            </Button>
+            <Button primary @click="addPackage()"> Add Package </Button>
           </div>
         </div>
       </div>

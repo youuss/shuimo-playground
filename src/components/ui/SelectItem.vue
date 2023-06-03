@@ -1,6 +1,4 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <ListboxOption v-slot="{ active, selected }">
@@ -19,5 +17,5 @@
       </span>
       <carbon-checkmark v-if="selected" />
     </div>
-  </listboxoption>
+  </ListboxOption>
 </template>

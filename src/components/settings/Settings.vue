@@ -16,13 +16,7 @@ const activeTab = ref('packages')
     z="10"
     @close="isOpen = false"
   >
-    <div
-      position="relative"
-      grid="~"
-      place="items-center"
-      min-h="screen"
-      p="4"
-    >
+    <div position="relative" grid="~" place="items-center" min-h="screen" p="4">
       <DialogOverlay
         position="fixed inset-0"
         backdrop="~ blur"
@@ -53,18 +47,23 @@ const activeTab = ref('packages')
               space="x-2"
             >
               <carbon-settings />
-              <span flex="1">
-                Settings
-              </span>
+              <span flex="1"> Settings </span>
               <Button icon @click="isOpen = false">
                 <carbon-close />
               </Button>
             </div>
-            <SettingsTab :badge="orchestrator.packages.length" :active="activeTab === 'packages'" @click="activeTab = 'packages'">
+            <SettingsTab
+              :badge="orchestrator.packages.length"
+              :active="activeTab === 'packages'"
+              @click="activeTab = 'packages'"
+            >
               <mdi-package-variant />
               <span>Packages</span>
             </SettingsTab>
-            <SettingsTab :active="activeTab === 'install'" @click="activeTab = 'install'">
+            <SettingsTab
+              :active="activeTab === 'install'"
+              @click="activeTab = 'install'"
+            >
               <mdi-package-variant-closed />
               <span>Install</span>
             </SettingsTab>

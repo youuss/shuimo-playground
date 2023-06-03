@@ -3,10 +3,7 @@ import { HTMLParser } from 'windicss/utils/parser'
 
 export function generateStyles(html: string) {
   // Get windi processor
-  const whitelist = [
-    'dark:text-light-300',
-    'text-dark-100',
-  ].join(' ')
+  const whitelist = ['dark:text-light-300', 'text-dark-100'].join(' ')
 
   // Parse html to get array of class matches with location
   const parser = new HTMLParser(html)
@@ -18,14 +15,16 @@ export function generateStyles(html: string) {
   // Parse all classes and put into one line to simplify operations
   const htmlClasses = parser
     .parseClasses()
-    .map(i => i.result)
+    .map((i) => i.result)
     .join(' ')
 
   // Generate preflight based on the html we input
   const preflightSheet = processor.preflight(html)
 
   // Process the html classes to an interpreted style sheet
-  const interpretedSheet = processor.interpret(`${htmlClasses} ${whitelist}`).styleSheet
+  const interpretedSheet = processor.interpret(
+    `${htmlClasses} ${whitelist}`
+  ).styleSheet
 
   // Always returns array
   const castArray = (val: any) => (Array.isArray(val) ? val : [val])
@@ -49,8 +48,7 @@ export function generateStyles(html: string) {
 
         // append current value to accumulator value
         acc[attrKey] = [...attrKeyValue, ...attrValue]
-      }
-      else {
+      } else {
         // else add atrribute value array to accumulator
         acc[attrKey] = attrValue
       }

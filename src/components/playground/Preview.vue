@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watchEffect, watch } from 'vue'
-import type { WatchStopHandle } from 'vue'
+import { onMounted, onUnmounted, ref, watch, watchEffect } from 'vue'
 import srcdoc from '../template.html?raw'
+import type { WatchStopHandle } from 'vue'
 import { PreviewProxy } from '~/logic/PreviewProxy'
 import { MAIN_FILE, vueRuntimeUrl } from '~/compiler/sfcCompiler'
 import { compileModulesForPreview } from '~/compiler/moduleCompiler'
@@ -16,42 +16,45 @@ let proxy: PreviewProxy
 let stopUpdateWatcher: WatchStopHandle
 
 watch([runtimeError, runtimeWarning], () => {
-  orchestrator.runtimeErrors = [runtimeError.value, runtimeWarning.value].filter(x => x)
+  orchestrator.runtimeErrors = [
+    runtimeError.value,
+    runtimeWarning.value,
+  ].filter((x) => x)
 })
 
 // create sandbox on mount
 onMounted(createSandbox)
 // reset sandbox when import map changes
 
-watch(() => store.importMap, (importMap, prev) => {
-  if (!importMap) {
-    if (prev) {
-      // import-map.json deleted
-      createSandbox()
-    }
-    return
-  }
-  try {
-    console.log('importMap', importMap)
-    const map = JSON.parse(importMap)
-    if (!map.imports) {
-      store.errors = [
-        'import-map.json is missing "imports" field.',
-      ]
+watch(
+  () => store.importMap,
+  (importMap, prev) => {
+    if (!importMap) {
+      if (prev) {
+        // import-map.json deleted
+        createSandbox()
+      }
       return
     }
-    if (map.imports.vue) {
-      store.errors = [
-        'Select Vue versions using the top-right dropdown.\n'
-        + 'Specifying it in the import map has no effect.',
-      ]
+    try {
+      console.log('importMap', importMap)
+      const map = JSON.parse(importMap)
+      if (!map.imports) {
+        store.errors = ['import-map.json is missing "imports" field.']
+        return
+      }
+      if (map.imports.vue) {
+        store.errors = [
+          'Select Vue versions using the top-right dropdown.\n' +
+            'Specifying it in the import map has no effect.',
+        ]
+      }
+      createSandbox()
+    } catch (e) {
+      store.errors = [e as Error]
     }
-    createSandbox()
   }
-  catch (e) {
-    store.errors = [e as Error]
-  }
-})
+)
 // reset sandbox when version changes
 watch(vueRuntimeUrl, createSandbox)
 onUnmounted(() => {
@@ -61,56 +64,60 @@ onUnmounted(() => {
 function createSandbox() {
   if (sandbox) {
     proxy.destroy()
-    if (stopUpdateWatcher)
-      stopUpdateWatcher()
-    container.value.removeChild(sandbox)
+    if (stopUpdateWatcher) stopUpdateWatcher()
+    sandbox.remove()
   }
   sandbox = document.createElement('iframe')
-  sandbox.setAttribute('sandbox', [
-    'allow-forms',
-    'allow-modals',
-    'allow-pointer-lock',
-    'allow-popups',
-    'allow-same-origin',
-    'allow-scripts',
-    'allow-top-navigation-by-user-activation',
-  ].join(' '))
+  sandbox.setAttribute(
+    'sandbox',
+    [
+      'allow-forms',
+      'allow-modals',
+      'allow-pointer-lock',
+      'allow-popups',
+      'allow-same-origin',
+      'allow-scripts',
+      'allow-top-navigation-by-user-activation',
+    ].join(' ')
+  )
   let importMap: Record<string, any>
   try {
     importMap = JSON.parse(store.importMap || '{}')
-  }
-  catch (e) {
+  } catch (e) {
     store.errors = [`Syntax error in import-map.json: ${(e as Error).message}`]
     return
   }
-  if (!importMap.imports)
-    importMap.imports = {}
+  if (!importMap.imports) importMap.imports = {}
 
   importMap.imports.vue = vueRuntimeUrl.value
-  const sandboxSrc = srcdoc.replace(/<!--IMPORT_MAP-->/, JSON.stringify(importMap))
+  const sandboxSrc = srcdoc.replace(
+    /<!--IMPORT_MAP-->/,
+    JSON.stringify(importMap)
+  )
   sandbox.srcdoc = sandboxSrc
-  container.value.appendChild(sandbox)
+  container.value.append(sandbox)
   proxy = new PreviewProxy(sandbox, {
     on_fetch_progress: (progress: any) => {
       // pending_imports = progress;
     },
     on_error: (event: any) => {
-      const msg = event.value instanceof Error ? event.value.message : event.value
+      const msg =
+        event.value instanceof Error ? event.value.message : event.value
       if (
-        msg.includes('Failed to resolve module specifier')
-        || msg.includes('Error resolving module specifier')
+        msg.includes('Failed to resolve module specifier') ||
+        msg.includes('Error resolving module specifier')
       ) {
-        runtimeError.value = `${msg.replace(/\. Relative references must.*$/, '')
-        }.\nTip: add an "import-map.json" file to specify import paths for dependencies.`
-      }
-      else {
+        runtimeError.value = `${msg.replace(
+          /\. Relative references must.*$/,
+          ''
+        )}.\nTip: add an "import-map.json" file to specify import paths for dependencies.`
+      } else {
         runtimeError.value = event.value
       }
     },
     on_unhandled_rejection: (event: any) => {
       let error = event.value
-      if (typeof error === 'string')
-        error = { message: error }
+      if (typeof error === 'string') error = { message: error }
 
       runtimeError.value = `Uncaught (in promise): ${error.message}`
     },
@@ -118,16 +125,15 @@ function createSandbox() {
       if (log.level === 'error') {
         if (log.args[0] instanceof Error)
           runtimeError.value = log.args[0].message
-        else
-          runtimeError.value = log.args[0]
-      }
-      else if (log.level === 'warn') {
-        if (log.args[0].toString().includes('[Vue warn]')) {
-          runtimeWarning.value = log.args
-            .join('')
-            .replace(/\[Vue warn\]:/, '')
-            .trim()
-        }
+        else runtimeError.value = log.args[0]
+      } else if (
+        log.level === 'warn' &&
+        log.args[0].toString().includes('[Vue warn]')
+      ) {
+        runtimeWarning.value = log.args
+          .join('')
+          .replace(/\[Vue warn]:/, '')
+          .trim()
       }
     },
     on_console_group: (action: any) => {
@@ -154,9 +160,11 @@ async function updatePreview() {
     console.log(`successfully compiled ${modules.length} modules.`, modules)
     // reset modules
     await proxy.eval([
-      'window.__modules__ = {};window.__css__ = \'\'',
+      "window.__modules__ = {};window.__css__ = ''",
       ...modules,
-      isDark.value ? 'document.querySelector("html").classList.add("dark")' : 'document.querySelector("html").classList.remove("dark")',
+      isDark.value
+        ? 'document.querySelector("html").classList.add("dark")'
+        : 'document.querySelector("html").classList.remove("dark")',
       `
       import { createApp as _createApp } from "vue"
       import { createMUI } from "shuimo-ui"
@@ -170,8 +178,7 @@ async function updatePreview() {
       app.use(createMUI())
       app.mount('#app')`.trim(),
     ])
-  }
-  catch (e) {
+  } catch (e) {
     runtimeError.value = (e as Error).message
   }
 }
@@ -185,7 +192,7 @@ async function updatePreview() {
     flex="~"
     class="preview-container"
     place="items-center content-center"
-  ></div>
+  />
 </template>
 
 <style>

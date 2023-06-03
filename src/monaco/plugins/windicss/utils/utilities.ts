@@ -1,21 +1,13 @@
 /* eslint-disable no-template-curly-in-string */
 
-const utilities: { [key: string]: string[]} = {
-  animation: [
-    'animate-{static}',
-  ],
-  backdropBlur: [
-    'backdrop-blur-{static}',
-    'backdrop-blur-[11px]',
-  ],
+const utilities: { [key: string]: string[] } = {
+  animation: ['animate-{static}'],
+  backdropBlur: ['backdrop-blur-{static}', 'backdrop-blur-[11px]'],
   backdropBrightness: [
     'backdrop-brightness-{static}',
     'backdrop-brightness-[1.23]',
   ],
-  backdropContrast: [
-    'backdrop-contrast-{static}',
-    'backdrop-contrast-[0.87]',
-  ],
+  backdropContrast: ['backdrop-contrast-{static}', 'backdrop-contrast-[0.87]'],
   backdropGrayscale: [
     'backdrop-grayscale-{static}',
     'backdrop-grayscale-[0.42]',
@@ -24,22 +16,10 @@ const utilities: { [key: string]: string[]} = {
     'backdrop-hue-rotate-{static}',
     'backdrop-hue-rotate-[1.57rad]',
   ],
-  backdropInvert: [
-    'backdrop-invert-{static}',
-    'backdrop-invert-[0.66]',
-  ],
-  backdropOpacity: [
-    'backdrop-opacity-{static}',
-    'backdrop-opacity-[22%]',
-  ],
-  backdropSaturate: [
-    'backdrop-saturate-{static}',
-    'backdrop-saturate-[144%]',
-  ],
-  backdropSepia: [
-    'backdrop-sepia-{static}',
-    'backdrop-sepia-[0.38]',
-  ],
+  backdropInvert: ['backdrop-invert-{static}', 'backdrop-invert-[0.66]'],
+  backdropOpacity: ['backdrop-opacity-{static}', 'backdrop-opacity-[22%]'],
+  backdropSaturate: ['backdrop-saturate-{static}', 'backdrop-saturate-[144%]'],
+  backdropSepia: ['backdrop-sepia-{static}', 'backdrop-sepia-[0.38]'],
   backgroundColor: [
     'bg-{color}',
     'bg-${var}',
@@ -51,9 +31,7 @@ const utilities: { [key: string]: string[]} = {
     'bg-[hsl(0,100%,50%)]',
     'bg-[hsla(0,100%,50%,0.3)]',
   ],
-  backgroundImage: [
-    'bg-{static}',
-  ],
+  backgroundImage: ['bg-{static}'],
   backgroundOpacity: [
     'bg-opacity-{static}',
     'bg-opacity-{int}',
@@ -61,23 +39,10 @@ const utilities: { [key: string]: string[]} = {
     'bg-opacity-[0.11]',
     'bg-opacity-[var(--value)]',
   ],
-  backgroundPosition: [
-    'bg-{static}',
-  ],
-  backgroundSize: [
-    'bg-{static}',
-  ],
-  blur: [
-    'blur-{static}',
-    'blur-{int}',
-    'blur-{size}',
-    'blur-[15px]',
-  ],
-  borderColor: [
-    'border-{color}',
-    'border-${var}',
-    'border-[#f00]',
-  ],
+  backgroundPosition: ['bg-{static}'],
+  backgroundSize: ['bg-{static}'],
+  blur: ['blur-{static}', 'blur-{int}', 'blur-{size}', 'blur-[15px]'],
+  borderColor: ['border-{color}', 'border-${var}', 'border-[#f00]'],
   borderOpacity: [
     'border-opacity-{static}',
     'border-opacity-{int}',
@@ -153,25 +118,11 @@ const utilities: { [key: string]: string[]} = {
     'border-r-width-${var}',
     'border-b-width-${var}',
   ],
-  boxShadow: [
-    'shadow-{static}',
-  ],
-  boxShadowColor: [
-    'shadow-{color}',
-    'shadow-${var}',
-  ],
-  brightness: [
-    'brightness-{static}',
-    'brightness-[300%]',
-  ],
-  caretColor: [
-    'caret-{color}',
-    'caret-${var}',
-  ],
-  caretOpacity: [
-    'caret-opacity-{static}',
-    'caret-opacity-${var}',
-  ],
+  boxShadow: ['shadow-{static}'],
+  boxShadowColor: ['shadow-{color}', 'shadow-${var}'],
+  brightness: ['brightness-{static}', 'brightness-[300%]'],
+  caretColor: ['caret-{color}', 'caret-${var}'],
+  caretOpacity: ['caret-opacity-{static}', 'caret-opacity-${var}'],
   content: [
     'content-{static}',
     'content-{string}',
@@ -179,20 +130,10 @@ const utilities: { [key: string]: string[]} = {
     'content-["👍"]',
     'content-[attr(data-content)]',
   ],
-  container: [
-    'container',
-  ],
-  contrast: [
-    'contrast-{static}',
-    'contrast-[2.4]',
-  ],
-  cursor: [
-    'cursor-{static}',
-  ],
-  divideColor: [
-    'divide-{color}',
-    'divide-${var}',
-  ],
+  container: ['container'],
+  contrast: ['contrast-{static}', 'contrast-[2.4]'],
+  cursor: ['cursor-{static}'],
+  divideColor: ['divide-{color}', 'divide-${var}'],
   divideOpacity: [
     'divide-opacity-{static}',
     'divide-opacity-{int}',
@@ -208,41 +149,24 @@ const utilities: { [key: string]: string[]} = {
     'divide-y-${var}',
     'divide-x-${var}',
   ],
-  dropShadow: [
-    'drop-shadow-{static}',
-  ],
+  dropShadow: ['drop-shadow-{static}'],
   fill: [
     'fill-{color}',
     'fill-${var}',
     'fill-[#1c1c1e]',
     'fill-[var(--color)]',
   ],
-  flex: [
-    'flex-{static}',
-    'flex-[var(--flex)]',
-  ],
-  flexGrow: [
-    'flex-grow-{static}',
-    'flex-grow-[var(--grow)]',
-  ],
-  flexShrink: [
-    'flex-shrink-{static}',
-    'flex-shrink-[var(--shrink)]',
-  ],
-  fontFamily: [
-    'font-{static}',
-    'font-${var}',
-  ],
+  flex: ['flex-{static}', 'flex-[var(--flex)]'],
+  flexGrow: ['flex-grow-{static}', 'flex-grow-[var(--grow)]'],
+  flexShrink: ['flex-shrink-{static}', 'flex-shrink-[var(--shrink)]'],
+  fontFamily: ['font-{static}', 'font-${var}'],
   fontSize: [
     'text-{static}',
     'text-{nxl}',
     'text-size-${var}',
     'text-[2.23rem]',
   ],
-  fontWeight: [
-    'font-{static}',
-    'font-{int}',
-  ],
+  fontWeight: ['font-{static}', 'font-{int}'],
   gap: [
     'gap-{static}',
     'gap-x-{static}',
@@ -274,22 +198,10 @@ const utilities: { [key: string]: string[]} = {
     'to-[#da5b66]',
     'to-[var(--color)]',
   ],
-  grayscale: [
-    'grayscale-{static}',
-    'grayscale-[0.55]',
-  ],
-  gridAutoColumns: [
-    'auto-cols-{static}',
-  ],
-  gridAutoRows: [
-    'auto-rows-{static}',
-  ],
-  gridColumn: [
-    'col-{static}',
-    'col-span-{int}',
-    'col-${var}',
-    'col-[7]',
-  ],
+  grayscale: ['grayscale-{static}', 'grayscale-[0.55]'],
+  gridAutoColumns: ['auto-cols-{static}'],
+  gridAutoRows: ['auto-rows-{static}'],
+  gridColumn: ['col-{static}', 'col-span-{int}', 'col-${var}', 'col-[7]'],
   gridColumnEnd: [
     'col-end-{static}',
     'col-end-{int}',
@@ -302,12 +214,7 @@ const utilities: { [key: string]: string[]} = {
     'col-start-${var}',
     'col-start-[7]',
   ],
-  gridRow: [
-    'row-{static}',
-    'row-span-{int}',
-    'row-${var}',
-    'row-[7]',
-  ],
+  gridRow: ['row-{static}', 'row-span-{int}', 'row-${var}', 'row-[7]'],
   gridRowEnd: [
     'row-end-{static}',
     'row-end-{int}',
@@ -343,10 +250,7 @@ const utilities: { [key: string]: string[]} = {
     'h-[calc(100%+1rem)]',
     'h-[var(--width)]',
   ],
-  hueRotate: [
-    'hue-rotate-{static}',
-    'hue-rotate-[0.8turn]',
-  ],
+  hueRotate: ['hue-rotate-{static}', 'hue-rotate-[0.8turn]'],
   inset: [
     'inset-{static}',
     'inset-{float}',
@@ -391,10 +295,7 @@ const utilities: { [key: string]: string[]} = {
     'left-{size}',
     'left-${var}',
   ],
-  invert: [
-    'invert-{static}',
-    'invert-[0.75]',
-  ],
+  invert: ['invert-{static}', 'invert-[0.75]'],
   letterSpacing: [
     'tracking-{static}',
     'tracking-{size}',
@@ -408,9 +309,7 @@ const utilities: { [key: string]: string[]} = {
     'leading-${var}',
     'leading-[var(--leading)]',
   ],
-  listStyleType: [
-    'list-{static}',
-  ],
+  listStyleType: ['list-{static}'],
   margin: [
     'm-{static}',
     'my-{static}',
@@ -497,24 +396,15 @@ const utilities: { [key: string]: string[]} = {
     'min-w-[calc(100%+1rem)]',
     'min-w-[var(--width)]',
   ],
-  objectPosition: [
-    'object-{static}',
-  ],
+  objectPosition: ['object-{static}'],
   opacity: [
     'opacity-{static}',
     'opacity-{int}',
     'opacity-${var}',
     'opacity-[var(--opacity)]',
   ],
-  order: [
-    'order-{static}',
-    'order-{int}',
-    'order-${var}',
-  ],
-  outline: [
-    'outline-{static}',
-    'outline-[var(--outline)]',
-  ],
+  order: ['order-{static}', 'order-{int}', 'order-${var}'],
+  outline: ['outline-{static}', 'outline-[var(--outline)]'],
   outlineColor: [
     'outline-{color}',
     'outline-${var}',
@@ -556,12 +446,8 @@ const utilities: { [key: string]: string[]} = {
     'pb-${var}',
     'pl-${var}',
   ],
-  perspective: [
-    'perspect-{static}',
-  ],
-  perspectiveOrigin: [
-    'perspect-origin-{static}',
-  ],
+  perspective: ['perspect-{static}'],
+  perspectiveOrigin: ['perspect-origin-{static}'],
   placeholderColor: [
     'placeholder-{color}',
     'placeholder-${var}',
@@ -573,11 +459,7 @@ const utilities: { [key: string]: string[]} = {
     'placeholder-opacity-${var}',
     'placeholder-opacity-[var(--placeholder)]',
   ],
-  ringColor: [
-    'ring-{color}',
-    'ring-${var}',
-    'ring-[#76ad65]',
-  ],
+  ringColor: ['ring-{color}', 'ring-${var}', 'ring-[#76ad65]'],
   ringOffsetColor: [
     'ring-offset-{color}',
     'ring-offset-${var}',
@@ -620,10 +502,7 @@ const utilities: { [key: string]: string[]} = {
     'rotate-[401grad]',
     'rotate-[1.5turn]',
   ],
-  saturate: [
-    'saturate-{static}',
-    'saturate-[180%]',
-  ],
+  saturate: ['saturate-{static}', 'saturate-[180%]'],
   scale: [
     'scale-{static}',
     'scale-{int}',
@@ -638,10 +517,7 @@ const utilities: { [key: string]: string[]} = {
     'scale-z-{int}',
     'scale-z-${var}',
   ],
-  sepia: [
-    'sepia-{static}',
-    'sepia-[0.2]',
-  ],
+  sepia: ['sepia-{static}', 'sepia-[0.2]'],
   skew: [
     'skew-x-{static}',
     'skew-x-{float}',
@@ -665,43 +541,19 @@ const utilities: { [key: string]: string[]} = {
     'space-x-[20cm]',
     'space-x-[calc(20%-1cm)]',
   ],
-  stroke: [
-    'stroke-{color}',
-    'stroke-${var}',
-    'stroke-[#da5b66]',
-  ],
-  strokeWidth: [
-    'stroke-{static}',
-    'stroke-{int}',
-    'stroke-width-${var}',
-  ],
-  strokeDashArray: [
-    'stroke-dash-{static}',
-    'stroke-dash-{int}',
-  ],
-  strokeDashOffset: [
-    'stroke-offset-{static}',
-    'stroke-offset-{int}',
-  ],
-  tabSize: [
-    'tab-{static}',
-  ],
-  textColor: [
-    'text-{color}',
-    'text-${var}',
-  ],
+  stroke: ['stroke-{color}', 'stroke-${var}', 'stroke-[#da5b66]'],
+  strokeWidth: ['stroke-{static}', 'stroke-{int}', 'stroke-width-${var}'],
+  strokeDashArray: ['stroke-dash-{static}', 'stroke-dash-{int}'],
+  strokeDashOffset: ['stroke-offset-{static}', 'stroke-offset-{int}'],
+  tabSize: ['tab-{static}'],
+  textColor: ['text-{color}', 'text-${var}'],
   textOpacity: [
     'text-opacity-{static}',
     'text-opacity-{int}',
     'text-opacity-${var}',
   ],
-  textShadow: [
-    'text-shadow-{static}',
-  ],
-  textDecorationColor: [
-    'underline-{color}',
-    'underline-${var}',
-  ],
+  textShadow: ['text-shadow-{static}'],
+  textDecorationColor: ['underline-{color}', 'underline-${var}'],
   textDecorationOpacity: [
     'underline-opacity-{static}',
     'underline-opacity-{int}',
@@ -717,21 +569,10 @@ const utilities: { [key: string]: string[]} = {
     'underline-offset-{int}',
     'underline-offset-{size}',
   ],
-  textIndent: [
-    'indent-{static}',
-    'indent-{size}',
-  ],
-  textStrokeColor: [
-    'text-stroke-{color}',
-    'text-stroke-${var}',
-  ],
-  textStrokeWidth: [
-    'text-stroke-{static}',
-    'text-stroke-{size}',
-  ],
-  transformOrigin: [
-    'origin-{static}',
-  ],
+  textIndent: ['indent-{static}', 'indent-{size}'],
+  textStrokeColor: ['text-stroke-{color}', 'text-stroke-${var}'],
+  textStrokeWidth: ['text-stroke-{static}', 'text-stroke-{size}'],
+  transformOrigin: ['origin-{static}'],
   transitionDuration: [
     'duration-{static}',
     'duration-{int}',
@@ -745,12 +586,8 @@ const utilities: { [key: string]: string[]} = {
     'delay-${var}',
     'delay-[var(--delay)]',
   ],
-  transitionProperty: [
-    'transition-{static}',
-  ],
-  transitionTimingFunction: [
-    'ease-{static}',
-  ],
+  transitionProperty: ['transition-{static}'],
+  transitionTimingFunction: ['ease-{static}'],
   translate: [
     'translate-{static}',
     'translate-{float}',
@@ -790,14 +627,10 @@ const utilities: { [key: string]: string[]} = {
     'w-[var(--width,calc(100%+1rem))]',
     'w-[calc(100%/3-1rem*2)]',
   ],
-  zIndex: [
-    'z-{static}',
-    'z-{int}',
-    'z-${var}',
-  ],
+  zIndex: ['z-{static}', 'z-{int}', 'z-${var}'],
 }
 
-const negative: { [key: string]: true} = {
+const negative: { [key: string]: true } = {
   inset: true,
   zIndex: true,
   order: true,

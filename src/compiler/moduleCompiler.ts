@@ -1,12 +1,18 @@
 import {
-  babelParse,
   MagicString,
+  babelParse,
   walk,
   walkIdentifiers,
 } from '@vue/compiler-sfc'
-import { ExportSpecifier, Identifier, Node, ObjectProperty } from '@babel/types'
-import { orchestrator as store, OrchestratorFile as File } from '../orchestrator'
+import { orchestrator as store } from '../orchestrator'
 import { MAIN_FILE } from './sfcCompiler'
+import type {
+  ExportSpecifier,
+  Identifier,
+  Node,
+  ObjectProperty,
+} from '@babel/types'
+import type { OrchestratorFile as File } from '../orchestrator'
 
 export function compileModulesForPreview() {
   return processFile(store.files[MAIN_FILE]).reverse()
@@ -19,8 +25,7 @@ const moduleKey = '__module__'
 
 // similar logic with Vite's SSR transform, except this is targeting the browser
 function processFile(file: File, seen = new Set<File>()) {
-  if (seen.has(file))
-    return []
+  if (seen.has(file)) return []
 
   seen.add(file)
 
@@ -43,15 +48,14 @@ function processFile(file: File, seen = new Set<File>()) {
     if (!(filename in store.files))
       throw new Error(`File "${filename}" does not exist.`)
 
-    if (importedFiles.has(filename))
-      return importToIdMap.get(filename)!
+    if (importedFiles.has(filename)) return importToIdMap.get(filename)!
 
     importedFiles.add(filename)
     const id = `__import_${importedFiles.size}__`
     importToIdMap.set(filename, id)
     s.appendLeft(
       node.start!,
-      `const ${id} = ${modulesKey}[${JSON.stringify(filename)}]\n`,
+      `const ${id} = ${modulesKey}[${JSON.stringify(filename)}]\n`
     )
     return id
   }
@@ -63,8 +67,8 @@ function processFile(file: File, seen = new Set<File>()) {
   // 0. instantiate module
   s.prepend(
     `const ${moduleKey} = __modules__[${JSON.stringify(
-      file.filename,
-    )}] = { [Symbol.toStringTag]: "Module" }\n\n`,
+      file.filename
+    )}] = { [Symbol.toStringTag]: "Module" }\n\n`
   )
 
   // 1. check all import statements and record id -> importName map
@@ -80,13 +84,11 @@ function processFile(file: File, seen = new Set<File>()) {
           if (spec.type === 'ImportSpecifier') {
             idToImportMap.set(
               spec.local.name,
-              `${importId}.${(spec.imported as Identifier).name}`,
+              `${importId}.${(spec.imported as Identifier).name}`
             )
-          }
-          else if (spec.type === 'ImportDefaultSpecifier') {
+          } else if (spec.type === 'ImportDefaultSpecifier') {
             idToImportMap.set(spec.local.name, `${importId}.default`)
-          }
-          else {
+          } else {
             // namespace specifier
             idToImportMap.set(spec.local.name, importId)
           }
@@ -102,34 +104,30 @@ function processFile(file: File, seen = new Set<File>()) {
     if (node.type === 'ExportNamedDeclaration') {
       if (node.declaration) {
         if (
-          node.declaration.type === 'FunctionDeclaration'
-          || node.declaration.type === 'ClassDeclaration'
+          node.declaration.type === 'FunctionDeclaration' ||
+          node.declaration.type === 'ClassDeclaration'
         ) {
           // export function foo() {}
           defineExport(node.declaration.id!.name)
-        }
-        else if (node.declaration.type === 'VariableDeclaration') {
+        } else if (node.declaration.type === 'VariableDeclaration') {
           // export const foo = 1, bar = 2
           for (const decl of node.declaration.declarations) {
             const names = extractNames(decl.id as any)
-            for (const name of names)
-              defineExport(name)
+            for (const name of names) defineExport(name)
           }
         }
         s.remove(node.start!, node.declaration.start!)
-      }
-      else if (node.source) {
+      } else if (node.source) {
         // export { foo, bar } from './foo'
         const importId = defineImport(node, node.source.value)
         for (const spec of node.specifiers) {
           defineExport(
             (spec.exported as Identifier).name,
-            `${importId}.${(spec as ExportSpecifier).local.name}`,
+            `${importId}.${(spec as ExportSpecifier).local.name}`
           )
         }
         s.remove(node.start!, node.end!)
-      }
-      else {
+      } else {
         // export { foo, bar }
         for (const spec of node.specifiers) {
           const local = (spec as ExportSpecifier).local.name
@@ -161,22 +159,20 @@ function processFile(file: File, seen = new Set<File>()) {
     if (node.type === 'ImportDeclaration') continue
     walkIdentifiers(node, (id, parent, parentStack) => {
       const binding = idToImportMap.get(id.name)
-      if (!binding)
-        return
+      if (!binding) return
 
       if (isStaticProperty(parent) && parent.shorthand) {
         // let binding used in a property shorthand
         // { foo } -> { foo: __import_x__.foo }
         // skip for destructure patterns
         if (
-          !(parent as any).inPattern
-          || isInDestructureAssignment(parent, parentStack)
+          !(parent as any).inPattern ||
+          isInDestructureAssignment(parent, parentStack)
         )
           s.appendLeft(id.end!, `: ${binding}`)
-      }
-      else if (
-        parent.type === 'ClassDeclaration'
-        && id === parent.superClass
+      } else if (
+        parent.type === 'ClassDeclaration' &&
+        id === parent.superClass
       ) {
         if (!declaredConst.has(id.name)) {
           declaredConst.add(id.name)
@@ -184,15 +180,14 @@ function processFile(file: File, seen = new Set<File>()) {
           const topNode = parentStack[1]
           s.prependRight(topNode.start!, `const ${id.name} = ${binding};\n`)
         }
-      }
-      else {
+      } else {
         s.overwrite(id.start!, id.end!, binding)
       }
     })
   }
 
   // 4. convert dynamic imports
-  (walk as any)(ast, {
+  ;(walk as any)(ast, {
     enter(node: Node, parent: Node) {
       if (node.type === 'Import' && parent.type === 'CallExpression') {
         const arg = parent.arguments[0]
@@ -201,7 +196,7 @@ function processFile(file: File, seen = new Set<File>()) {
           s.overwrite(
             arg.start!,
             arg.end!,
-            JSON.stringify(arg.value.replace(/^\.\/+/, '')),
+            JSON.stringify(arg.value.replace(/^\.\/+/, ''))
           )
         }
       }
@@ -209,11 +204,10 @@ function processFile(file: File, seen = new Set<File>()) {
   })
 
   // append CSS injection code
-  if (css)
-    s.append(`\nwindow.__css__ += ${JSON.stringify(css)}`)
+  if (css) s.append(`\nwindow.__css__ += ${JSON.stringify(css)}`)
 
   const processed = [s.toString()]
-  if (importedFiles.size) {
+  if (importedFiles.size > 0) {
     for (const imported of importedFiles)
       processed.push(...processFile(store.files[imported], seen))
   }
@@ -226,12 +220,12 @@ const isStaticProperty = (node: Node): node is ObjectProperty =>
   node.type === 'ObjectProperty' && !node.computed
 
 function extractNames(param: Node): string[] {
-  return extractIdentifiers(param).map(id => id.name)
+  return extractIdentifiers(param).map((id) => id.name)
 }
 
 function extractIdentifiers(
   param: Node,
-  nodes: Identifier[] = [],
+  nodes: Identifier[] = []
 ): Identifier[] {
   switch (param.type) {
     case 'Identifier':
@@ -240,8 +234,7 @@ function extractIdentifiers(
 
     case 'MemberExpression':
       let object: any = param
-      while (object.type === 'MemberExpression')
-        object = object.object
+      while (object.type === 'MemberExpression') object = object.object
 
       nodes.push(object)
       break
@@ -250,8 +243,7 @@ function extractIdentifiers(
       param.properties.forEach((prop) => {
         if (prop.type === 'RestElement')
           extractIdentifiers(prop.argument, nodes)
-        else
-          extractIdentifiers(prop.value, nodes)
+        else extractIdentifiers(prop.value, nodes)
       })
       break
 
@@ -275,16 +267,14 @@ function extractIdentifiers(
 
 function isInDestructureAssignment(parent: Node, parentStack: Node[]): boolean {
   if (
-    parent
-    && (parent.type === 'ObjectProperty' || parent.type === 'ArrayPattern')
+    parent &&
+    (parent.type === 'ObjectProperty' || parent.type === 'ArrayPattern')
   ) {
     let i = parentStack.length
     while (i--) {
       const p = parentStack[i]
-      if (p.type === 'AssignmentExpression')
-        return true
-      else if (p.type !== 'ObjectProperty' && !p.type.endsWith('Pattern'))
-        break
+      if (p.type === 'AssignmentExpression') return true
+      else if (p.type !== 'ObjectProperty' && !p.type.endsWith('Pattern')) break
     }
   }
   return false

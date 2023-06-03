@@ -8,14 +8,13 @@ const props = defineProps<{
 }>()
 
 const version = useVModel(props)
-const { data } = useFetch(`https://api.skypack.dev/v1/package/${props.name}`).json().get()
+const { data } = useFetch(`https://api.skypack.dev/v1/package/${props.name}`)
+  .json()
+  .get()
 
 const versions = computed(() => {
   if (data.value && data.value.versions) {
-    return [
-      'Latest',
-      ...Object.keys(data.value.versions),
-    ]
+    return ['Latest', ...Object.keys(data.value.versions)]
   }
 
   return ['Latest']
@@ -52,7 +51,6 @@ const versions = computed(() => {
           max-h="60"
           z="100"
           overflow="auto"
-
           border="1 dark:dark-900 light-900 rounded-b"
         >
           <div

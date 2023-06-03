@@ -11,11 +11,14 @@ const { onChange, setContent } = useMonaco(target, {
   code: props.value,
 })
 
-watch(() => props.value, () => setContent(props.value))
-onChange(content => emit('change', content))
+watch(
+  () => props.value,
+  () => setContent(props.value)
+)
+onChange((content) => emit('change', content))
 emit('change', props.value)
 </script>
 
 <template>
-  <div ref="target" class="h-full w-full"></div>
+  <div ref="target" class="h-full w-full" />
 </template>

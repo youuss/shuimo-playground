@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useFetch, useThrottle } from '@vueuse/core'
 import PackageItem from './PackageItem.vue'
 
 const query = ref('')
 const thorttledQuery = useThrottle(query, 1000)
-const url = computed(() => `https://api.skypack.dev/v1/search?q=${thorttledQuery.value}`)
+const url = computed(
+  () => `https://api.skypack.dev/v1/search?q=${thorttledQuery.value}`
+)
 const { data } = useFetch(url, { refetch: true }).json().get()
 
 const isOpen = ref(false)
@@ -14,7 +16,11 @@ const isOpen = ref(false)
 <template>
   <div>
     <div h="20" flex="~ row" items="center" p="x-4" space="x-4">
-      <Textfield v-model="query" h="12" placeholder="Search Skypack Packages...">
+      <Textfield
+        v-model="query"
+        h="12"
+        placeholder="Search Skypack Packages..."
+      >
         <carbon-search />
       </Textfield>
       <Button h="12" border="1 dark-900 rounded" @click="isOpen = true">

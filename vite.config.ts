@@ -1,5 +1,5 @@
-
-import path from 'path'
+// @ts-ignore
+import path from 'node:path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import Components from 'unplugin-vue-components/vite'
@@ -25,8 +25,8 @@ export default defineConfig({
       resolvers: [
         HeadlessUiResolver(),
         IconResolver({
-          prefix: ''
-        })
+          prefix: '',
+        }),
       ],
     }),
     WindiCSS({

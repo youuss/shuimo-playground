@@ -1,5 +1,7 @@
-export function connect(strings: string|string[]) {
-  return Array.isArray(strings) ? new RegExp(strings.map(i => `(${i})`).join('|')) : new RegExp(strings)
+export function connect(strings: string | string[]) {
+  return Array.isArray(strings)
+    ? new RegExp(strings.map((i) => `(${i})`).join('|'))
+    : new RegExp(strings)
 }
 
 export function allowAttr(type: string): boolean {
@@ -14,49 +16,51 @@ const htmlPattern = [classPattern, applyPattern, windiPattern]
 
 export const applyRegex = new RegExp(applyPattern)
 
-export const patterns: {[key: string]: RegExp} = {
+export const patterns: { [key: string]: RegExp } = {
   html: connect(htmlPattern),
   js: connect(htmlPattern),
   css: connect(applyPattern),
 }
 
-export const fileTypes: {[key: string]: {pattern?: RegExp; type: string}} = {
-  css: {
-    type: 'css',
-  },
-  scss: {
-    type: 'css',
-  },
-  sass: {
-    type: 'css',
-  },
-  less: {
-    type: 'css',
-  },
-  javascript: {
-    type: 'js',
-  },
-  javascriptreact: {
-    type: 'js',
-  },
-  typescriptreact: {
-    type: 'js',
-  },
-  html: {
-    type: 'html',
-  },
-  php: {
-    type: 'html',
-  },
-  vue: {
-    type: 'html',
-    pattern: /(\s+(v-bind)?:class\s*=\s*["][{[][^"]*$)|(\s+(v-bind)?:class\s*=\s*['][{[][^']*$)/,
-  },
-  svelte: {
-    type: 'html',
-    pattern: /(\s+class:\S*$)|((\s+class\s*=\s*["'`]?\s*{\s*)[^}]*$)/,
-  },
-}
+export const fileTypes: { [key: string]: { pattern?: RegExp; type: string } } =
+  {
+    css: {
+      type: 'css',
+    },
+    scss: {
+      type: 'css',
+    },
+    sass: {
+      type: 'css',
+    },
+    less: {
+      type: 'css',
+    },
+    javascript: {
+      type: 'js',
+    },
+    javascriptreact: {
+      type: 'js',
+    },
+    typescriptreact: {
+      type: 'js',
+    },
+    html: {
+      type: 'html',
+    },
+    php: {
+      type: 'html',
+    },
+    vue: {
+      type: 'html',
+      pattern:
+        /(\s+(v-bind)?:class\s*=\s*"[[{][^"]*$)|(\s+(v-bind)?:class\s*=\s*'[[{][^']*$)/,
+    },
+    svelte: {
+      type: 'html',
+      pattern: /(\s+class:\S*$)|((\s+class\s*=\s*["'`]?\s*{\s*)[^}]*$)/,
+    },
+  }
 
 // if (getConfig('windicss.includeLanguages')) {
 //   // "windicss.includeLanguages": {

@@ -1,9 +1,7 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div w="full" h="full">
-    <Editor  />
+    <Editor />
   </div>
 </template>

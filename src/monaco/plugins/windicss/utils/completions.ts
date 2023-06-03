@@ -1,9 +1,14 @@
+import { negative, utilities } from './utilities'
+import { flatColors } from './index'
 import type { Processor } from 'windicss/lib'
 import type { Attr, Completion } from '../interfaces'
-import { utilities, negative } from './utilities'
-import { flatColors } from './index'
 
-export function generateCompletions(processor: Processor, colors: any, attributify = true, prefix = '') {
+export function generateCompletions(
+  processor: Processor,
+  colors: any,
+  attributify = true,
+  prefix = ''
+) {
   const completions: Completion = {
     static: [],
     color: [],
@@ -18,7 +23,10 @@ export function generateCompletions(processor: Processor, colors: any, attributi
   }
   const staticUtilities = processor.resolveStaticUtilities(true)
   // generate normal utilities completions
-  for (const [config, list] of Object.entries({ ...utilities, ...processor._plugin.completions })) {
+  for (const [config, list] of Object.entries({
+    ...utilities,
+    ...processor._plugin.completions,
+  })) {
     for (const utility of list) {
       const bracket = utility.indexOf('[')
       if (bracket !== -1) {
@@ -28,18 +36,25 @@ export function generateCompletions(processor: Processor, colors: any, attributi
       const mark = utility.indexOf('{')
       if (mark === -1) {
         completions.static.push(utility)
-      }
-      else {
+      } else {
         const key = prefix + utility.slice(0, mark - 1)
         const suffix = utility.slice(mark)
         switch (suffix) {
           case '{static}':
             for (const i of Object.keys(processor.theme(config, {}) as any))
-              completions.static.push(i === 'DEFAULT' ? key : i.charAt(0) === '-' ? `-${key}${i}` : `${key}-${i}`)
+              completions.static.push(
+                i === 'DEFAULT'
+                  ? key
+                  : i.charAt(0) === '-'
+                  ? `-${key}${i}`
+                  : `${key}-${i}`
+              )
 
             break
           case '{color}':
-            for (const [k, v] of Object.entries(flatColors(processor.theme(config, colors)))) {
+            for (const [k, v] of Object.entries(
+              flatColors(processor.theme(config, colors))
+            )) {
               if (k === 'DEFAULT') continue
               completions.color.push({
                 label: `${key}-${k}`,
@@ -68,10 +83,18 @@ export function generateCompletions(processor: Processor, colors: any, attributi
   const attr: Attr = { static: {}, color: {}, bracket: {}, dynamic: {} }
 
   if (attributify) {
-    const attrDisable = processor.config('attributify.disable') as string[] | undefined
-    const addAttr = (key: string, value: any, type: 'static' | 'color' | 'bracket' | 'dynamic' = 'static') => {
+    const attrDisable = processor.config('attributify.disable') as
+      | string[]
+      | undefined
+    const addAttr = (
+      key: string,
+      value: any,
+      type: 'static' | 'color' | 'bracket' | 'dynamic' = 'static'
+    ) => {
       if (attrDisable && attrDisable.includes(key)) return
-      key in attr[type] ? attr[type][key].push(value) : attr[type][key] = [value]
+      key in attr[type]
+        ? attr[type][key].push(value)
+        : (attr[type][key] = [value])
     }
 
     addAttr('flex', '~')
@@ -147,8 +170,7 @@ export function generateCompletions(processor: Processor, colors: any, attributi
         case 'display':
           if (key.startsWith('table') || key === 'inline-table')
             addAttr('table', key.replace(/-?table-?/, '') || '~')
-          else
-            addAttr('display', key)
+          else addAttr('display', key)
 
           break
         case 'position':
@@ -202,10 +224,8 @@ export function generateCompletions(processor: Processor, colors: any, attributi
           addAttr('object', key.slice(7)) // object-
           break
         case 'transform':
-          if (key.startsWith('preserve'))
-            addAttr('transform', key)
-          else
-            addAttr('transform', key.slice(10) || '~') // transform-
+          if (key.startsWith('preserve')) addAttr('transform', key)
+          else addAttr('transform', key.slice(10) || '~') // transform-
 
           break
         case 'perspectOrigin':
@@ -256,33 +276,68 @@ export function generateCompletions(processor: Processor, colors: any, attributi
 }
 
 function split(utility: string) {
-  if (utility.startsWith('bg-gradient')) return { key: 'gradient', body: utility.replace(/^bg-gradient-/, '') }
+  if (utility.startsWith('bg-gradient'))
+    return { key: 'gradient', body: utility.replace(/^bg-gradient-/, '') }
   if (utility === 'w-min') return { key: 'w', body: 'min-content' }
   if (utility === 'w-max') return { key: 'w', body: 'max-content' }
   if (utility === 'h-min') return { key: 'h', body: 'min-content' }
   if (utility === 'h-max') return { key: 'h', body: 'max-content' }
-  if (utility.startsWith('min-w')) return { key: 'w', body: utility.replace(/^min-w-/, 'min-') }
-  if (utility.startsWith('max-w')) return { key: 'w', body: utility.replace(/^max-w-/, 'max-') }
-  if (utility.startsWith('min-h')) return { key: 'h', body: utility.replace(/^min-h-/, 'min-') }
-  if (utility.startsWith('max-h')) return { key: 'h', body: utility.replace(/^max-h-/, 'max-') }
+  if (utility.startsWith('min-w'))
+    return { key: 'w', body: utility.replace(/^min-w-/, 'min-') }
+  if (utility.startsWith('max-w'))
+    return { key: 'w', body: utility.replace(/^max-w-/, 'max-') }
+  if (utility.startsWith('min-h'))
+    return { key: 'h', body: utility.replace(/^min-h-/, 'min-') }
+  if (utility.startsWith('max-h'))
+    return { key: 'h', body: utility.replace(/^max-h-/, 'max-') }
 
   const key = utility.match(/[^-]+/)?.[0]
   if (key) {
-    if (['duration', 'ease', 'delay'].includes(key)) return { key: 'transition', body: utility }
-    if (['scale', 'rotate', 'translate', 'skew', 'origin', 'perspect'].includes(key)) return { key: 'transform', body: utility }
-    if (['blur', 'brightness', 'contrast', 'drop', 'grayscale', 'hue', 'invert', 'saturate', 'sepia'].includes(key)) return { key: 'filter', body: utility }
-    if (['inset', 'top', 'left', 'bottom', 'right'].includes(key)) return { key: 'pos', body: utility }
-    if (['py', 'px', 'pt', 'pl', 'pb', 'pr'].includes(key)) return { key: 'p', body: utility.slice(1) }
-    if (['my', 'mx', 'mt', 'ml', 'mb', 'mr'].includes(key)) return { key: 'm', body: utility.charAt(0) === '-' ? `-${utility.slice(2)}` : utility.slice(1) }
+    if (['duration', 'ease', 'delay'].includes(key))
+      return { key: 'transition', body: utility }
+    if (
+      ['scale', 'rotate', 'translate', 'skew', 'origin', 'perspect'].includes(
+        key
+      )
+    )
+      return { key: 'transform', body: utility }
+    if (
+      [
+        'blur',
+        'brightness',
+        'contrast',
+        'drop',
+        'grayscale',
+        'hue',
+        'invert',
+        'saturate',
+        'sepia',
+      ].includes(key)
+    )
+      return { key: 'filter', body: utility }
+    if (['inset', 'top', 'left', 'bottom', 'right'].includes(key))
+      return { key: 'pos', body: utility }
+    if (['py', 'px', 'pt', 'pl', 'pb', 'pr'].includes(key))
+      return { key: 'p', body: utility.slice(1) }
+    if (['my', 'mx', 'mt', 'ml', 'mb', 'mr'].includes(key))
+      return {
+        key: 'm',
+        body:
+          utility.charAt(0) === '-' ? `-${utility.slice(2)}` : utility.slice(1),
+      }
     if (['stroke', 'fill'].includes(key)) return { key: 'icon', body: utility }
-    if (['from', 'via', 'to'].includes(key)) return { key: 'gradient', body: utility }
-    if (['tracking', 'leading'].includes(key)) return { key: 'font', body: utility }
+    if (['from', 'via', 'to'].includes(key))
+      return { key: 'gradient', body: utility }
+    if (['tracking', 'leading'].includes(key))
+      return { key: 'font', body: utility }
     if (['tab', 'indent'].includes(key)) return { key: 'text', body: utility }
-    if (['col', 'row', 'auto', 'gap'].includes(key)) return { key: 'grid', body: utility }
+    if (['col', 'row', 'auto', 'gap'].includes(key))
+      return { key: 'grid', body: utility }
     if (key === 'placeholder') return { key: 'text', body: utility }
     if (key === 'rounded') return { key: 'border', body: utility }
   }
   const negative = utility.charAt(0) === '-'
-  const body = (negative ? utility.slice(1) : utility).match(/-.+/)?.[0].slice(1) || '~'
+  const body =
+    (negative ? utility.slice(1) : utility).match(/-.+/)?.[0].slice(1) || '~'
   return { key, body: negative ? `-${body}` : body }
 }

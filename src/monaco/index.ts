@@ -8,7 +8,7 @@ import vueTypes from '@vue/runtime-core/dist/runtime-core.d.ts?raw'
 
 import { orchestrator } from '~/orchestrator'
 
-const setup = createSingletonPromise(async() => {
+const setup = createSingletonPromise(async () => {
   monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
     ...monaco.languages.typescript.javascriptDefaults.getCompilerOptions(),
     noUnusedLocals: false,
@@ -21,28 +21,37 @@ const setup = createSingletonPromise(async() => {
 
   const registered: string[] = ['vue']
 
-  monaco.languages.typescript.javascriptDefaults.addExtraLib(`
+  monaco.languages.typescript.javascriptDefaults.addExtraLib(
+    `
     declare module 'vue' { ${vueTypes} }
-  `, 'ts:vue')
+  `,
+    'ts:vue'
+  )
 
-  watch(() => orchestrator.packages, () => {
-    orchestrator.packages.forEach((pack) => {
-      if (registered.includes(pack.name))
-        return
+  watch(
+    () => orchestrator.packages,
+    () => {
+      orchestrator.packages.forEach((pack) => {
+        if (registered.includes(pack.name)) return
 
-      registered.push(pack.name)
-      monaco.languages.typescript.javascriptDefaults.addExtraLib(`
+        registered.push(pack.name)
+        monaco.languages.typescript.javascriptDefaults.addExtraLib(
+          `
         declare module '${pack.name}' {
           let x: any;
           export = x;
         }
-      `, pack.name)
-    })
-  }, { immediate: true })
+      `,
+          pack.name
+        )
+      })
+    },
+    { immediate: true }
+  )
 
   await Promise.all([
     // load workers
-    (async() => {
+    (async () => {
       const [
         { default: EditorWorker },
         { default: HtmlWorker },
@@ -70,7 +79,7 @@ const setup = createSingletonPromise(async() => {
   /* __async_injections__ */
 
   if (getCurrentInstance())
-    await new Promise<void>(resolve => onMounted(resolve))
+    await new Promise<void>((resolve) => onMounted(resolve))
 
   return { monaco }
 })

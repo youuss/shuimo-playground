@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useVModel, useClipboard, useEventListener } from '@vueuse/core'
+import { useClipboard, useEventListener, useVModel } from '@vueuse/core'
 import { isDark, toggleDark } from '~/logic/dark'
 import { exportState } from '~/orchestrator'
 
@@ -31,34 +31,19 @@ useEventListener('keydown', (ev) => {
     spcae="y-2"
   >
     <img src="/shuimo.svg" class="w-12" />
-    <span class="flex-1"></span>
-    <Button
-      icon
-      text="base"
-      @click="toggleDark()"
-    >
+    <span class="flex-1" />
+    <Button icon text="base" @click="toggleDark()">
       <carbon-moon v-if="isDark" />
       <carbon-sun v-else />
     </Button>
-    <Button
-      icon
-      text="base"
-      @click="share"
-    >
+    <Button icon text="base" @click="share">
       <carbon-share />
     </Button>
-    <Button
-      icon
-      text="base"
-      @click="isOpen = true"
-    >
+    <Button icon text="base" @click="isOpen = true">
       <carbon-settings />
     </Button>
     <a href="https://github.com/youuss/shuimo-playground" target="_blank">
-      <Button
-        icon
-        text="base"
-      >
+      <Button icon text="base">
         <mdi-github />
       </Button>
     </a>
