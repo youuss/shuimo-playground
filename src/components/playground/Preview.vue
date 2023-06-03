@@ -37,7 +37,6 @@ watch(
       return
     }
     try {
-      console.log('importMap', importMap)
       const map = JSON.parse(importMap)
       if (!map.imports) {
         store.errors = ['import-map.json is missing "imports" field.']
@@ -157,7 +156,7 @@ async function updatePreview() {
   runtimeWarning.value = null
   try {
     const modules = compileModulesForPreview()
-    console.log(`successfully compiled ${modules.length} modules.`, modules)
+    console.log(`successfully compiled ${modules.length} modules.`)
     // reset modules
     await proxy.eval([
       "window.__modules__ = {};window.__css__ = ''",

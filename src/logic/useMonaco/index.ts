@@ -1,10 +1,10 @@
 import { ref, unref, watch } from 'vue'
 import { createEventHook, tryOnUnmounted, until } from '@vueuse/core'
 
-import darktheme from 'theme-vitesse/themes/vitesse-dark.json'
-import lightTheme from 'theme-vitesse/themes/vitesse-light.json'
 import type { Ref } from 'vue'
 import type { editor as Editor } from 'monaco-editor'
+import shuimo from '~/data/shuimo.json'
+import shuimoDark from '~/data/shuimo-dark.json'
 import { editorPlugins } from '~/monaco/plugins/editor'
 import setupMonaco from '~/monaco'
 import { isDark } from '~/logic/dark'
@@ -21,8 +21,8 @@ export function useMonaco(target: Ref, options: any) {
 
   const init = async () => {
     const { monaco } = await setupMonaco()
-    monaco.editor.defineTheme('vitesse-dark', darktheme as any)
-    monaco.editor.defineTheme('vitesse-light', lightTheme as any)
+    monaco.editor.defineTheme('shuimo-dark', shuimoDark as any)
+    monaco.editor.defineTheme('shuimo', shuimo as any)
 
     watch(
       target,
@@ -50,7 +50,7 @@ export function useMonaco(target: Ref, options: any) {
           detectIndentation: false,
           folding: false,
           automaticLayout: true,
-          theme: 'vitesse-dark',
+          theme: 'shuimo-dark',
           minimap: {
             enabled: false,
           },
@@ -61,8 +61,8 @@ export function useMonaco(target: Ref, options: any) {
         watch(
           isDark,
           () => {
-            if (isDark.value) monaco.editor.setTheme('vitesse-dark')
-            else monaco.editor.setTheme('vitesse-light')
+            if (isDark.value) monaco.editor.setTheme('shuimo-dark')
+            else monaco.editor.setTheme('shuimo-light')
           },
           { immediate: true }
         )
